@@ -20,10 +20,10 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
-    <ProjectGuid>{5D176287-3369-47DE-967C-E6740364F545}</ProjectGuid>
+    <ProjectGuid>{3532F47B-B4C7-437A-80EC-F34C2DE524E8}</ProjectGuid>
     <RootNamespace>GLproj</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
-    <ProjectName>task1</ProjectName>
+    <ProjectName>task2</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

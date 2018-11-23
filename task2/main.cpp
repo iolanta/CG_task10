@@ -1,130 +1,27 @@
 #include <GL/glut.h>
 
-
+GLdouble w, h;
 GLfloat xrotate, yrotate, zrotate;
+int proj_type = 0;
+int rotate_type = 0; // 0  around scene, 1 around center cube , 2 around invd center 
+
 void init(void)
 {
 	glClearColor(0, 0, 0, 0);
 
 }
 
-void center_cube(void)
-{
-	// Top
-	glVertex3f(1.0f, 1.0f, -1.0f);    // Top Right 
-	glVertex3f(-1.0f, 1.0f, -1.0f);    // Top Left  
-	glVertex3f(-1.0f, 1.0f, 1.0f);    // Bottom Left 
-	glVertex3f(1.0f, 1.0f, 1.0f);    // Bottom Right  
 
-	// Bottom
-	glVertex3f(1.0f, -1.0f, 1.0f);    // Top Right 
-	glVertex3f(-1.0f, -1.0f, 1.0f);    // Top Left 
-	glVertex3f(-1.0f, -1.0f, -1.0f);    // Bottom 
-	glVertex3f(1.0f, -1.0f, -1.0f);    // Bottom 
 
-	// Front
-	glVertex3f(1.0f, 1.0f, 1.0f);    // Top Right 
-	glVertex3f(-1.0f, 1.0f, 1.0f);    // Top Left 
-	glVertex3f(-1.0f, -1.0f, 1.0f);    // Bottom 
-	glVertex3f(1.0f, -1.0f, 1.0f);    // Bottom 
-
-	// Back
-	glVertex3f(1.0f, -1.0f, -1.0f);    // Top Right
-	glVertex3f(-1.0f, -1.0f, -1.0f);    // Top Left
-	glVertex3f(-1.0f, 1.0f, -1.0f);    // Bottom 
-	glVertex3f(1.0f, 1.0f, -1.0f);    // Bottom 
-
-	// Left
-	glVertex3f(-1.0f, 1.0f, 1.0f);    // Top Right 
-	glVertex3f(-1.0f, 1.0f, -1.0f);    // Top Left 
-	glVertex3f(-1.0f, -1.0f, -1.0f);    // Bottom 
-	glVertex3f(-1.0f, -1.0f, 1.0f);    // Bottom 
-
-	// Right
-	glVertex3f(1.0f, 1.0f, -1.0f);    // Top Right 
-	glVertex3f(1.0f, 1.0f, 1.0f);    // Top Left 
-	glVertex3f(1.0f, -1.0f, 1.0f);    // Bottom 
-	glVertex3f(1.0f, -1.0f, -1.0f);    // Bottom 
-
+void cube(GLdouble rx, GLdouble ry, GLdouble offset) {
+	glPushMatrix();
+	glTranslatef(offset, 0, 0);
+	glRotatef(rx, 1.0, 0.0, 0.0);
+	glRotatef(ry, 0.0, 0.0, 1.0);
+	glutSolidCube(2.0f);
+	glPopMatrix();
 }
 
-void left_cube(void)
-{
-	// Top
-	glVertex3f(-3.0f, 1.0f, -1.0f);    // Top Right 
-	glVertex3f(-5.0f, 1.0f, -1.0f);    // Top Left 
-	glVertex3f(-5.0f, 1.0f, 1.0f);    // Bottom Left 
-	glVertex3f(-3.0f, 1.0f, 1.0f);    // Bottom Right 
-
-	// Bottom
-	glVertex3f(-3.0f, -1.0f, 1.0f);    // Top Right 
-	glVertex3f(-5.0f, -1.0f, 1.0f);    // Top Left 
-	glVertex3f(-5.0f, -1.0f, -1.0f);    // Bottom Left 
-	glVertex3f(-3.0f, -1.0f, -1.0f);    // Bottom Right 
-
-	// Front
-	glVertex3f(-3.0f, 1.0f, 1.0f);    // Top Right 
-	glVertex3f(-5.0f, 1.0f, 1.0f);    // Top Left 
-	glVertex3f(-5.0f, -1.0f, 1.0f);    // Bottom Left 
-	glVertex3f(-3.0f, -1.0f, 1.0f);    // Bottom Right 
-
-	// Back
-	glVertex3f(-3.0f, -1.0f, -1.0f);    // Top Right 
-	glVertex3f(-5.0f, -1.0f, -1.0f);    // Top Left 
-	glVertex3f(-5.0f, 1.0f, -1.0f);    // Bottom Left
-	glVertex3f(-3.0f, 1.0f, -1.0f);    // Bottom Right 
-
-	// Left
-	glVertex3f(-5.0f, 1.0f, 1.0f);    // Top Right
-	glVertex3f(-5.0f, 1.0f, -1.0f);    // Top Left 
-	glVertex3f(-5.0f, -1.0f, -1.0f);    // Bottom Left
-	glVertex3f(-5.0f, -1.0f, 1.0f);    // Bottom Right 
-
-	// Right
-	glVertex3f(-3.0f, 1.0f, -1.0f);    // Top Right
-	glVertex3f(-3.0f, 1.0f, 1.0f);    // Top Left 
-	glVertex3f(-3.0f, -1.0f, 1.0f);    // Bottom Left 
-	glVertex3f(-3.0f, -1.0f, -1.0f);    // Bottom Right 
-}
-
-void right_cube(void)
-{
-	// Top
-	glVertex3f(5.0f, 1.0f, -1.0f);    // Top Right 
-	glVertex3f(3.0f, 1.0f, -1.0f);    // Top Left 
-	glVertex3f(3.0f, 1.0f, 1.0f);    // Bottom Left 
-	glVertex3f(5.0f, 1.0f, 1.0f);    // Bottom Right
-
-	// Bottom
-	glVertex3f(5.0f, -1.0f, 1.0f);    // Top Right 
-	glVertex3f(3.0f, -1.0f, 1.0f);    // Top Left 
-	glVertex3f(3.0f, -1.0f, -1.0f);    // Bottom Left
-	glVertex3f(5.0f, -1.0f, -1.0f);    // Bottom Right 
-
-	// Front 
-	glVertex3f(5.0f, 1.0f, 1.0f);    // Top Right 
-	glVertex3f(3.0f, 1.0f, 1.0f);    // Top Left 
-	glVertex3f(3.0f, -1.0f, 1.0f);    // Bottom Left 
-	glVertex3f(5.0f, -1.0f, 1.0f);    // Bottom Right 
-
-	// Back
-	glVertex3f(5.0f, -1.0f, -1.0f);    // Top Right 
-	glVertex3f(3.0f, -1.0f, -1.0f);    // Top Left 
-	glVertex3f(3.0f, 1.0f, -1.0f);    // Bottom Left 
-	glVertex3f(5.0f, 1.0f, -1.0f);    // Bottom Right 
-
-	// Left
-	glVertex3f(3.0f, 1.0f, 1.0f);    // Top Right 
-	glVertex3f(3.0f, 1.0f, -1.0f);    // Top Left
-	glVertex3f(3.0f, -1.0f, -1.0f);    // Bottom Left
-	glVertex3f(3.0f, -1.0f, 1.0f);    // Bottom Right 
-
-	// Right
-	glVertex3f(5.0f, 1.0f, -1.0f);    // Top Right 
-	glVertex3f(5.0f, 1.0f, 1.0f);    // Top Left
-	glVertex3f(5.0f, -1.0f, 1.0f);    // Bottom Left
-	glVertex3f(5.0f, -1.0f, -1.0f);    // Bottom Right 
-}
 
 void DrawCubes(void)
 {
@@ -133,58 +30,118 @@ void DrawCubes(void)
 	
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);		
-	glLoadIdentity();
+	
+	glPushMatrix();
 
-	glTranslatef(0.0, -3.0, -12.5);
-
-	// Rotation 
-	glRotatef(xrotate, 1.0, 0.0, 0.0);
-	glRotatef(yrotate, 0.0, 1.0, 0.0);
-	glRotatef(zrotate, 0.0, 0.0, 1.0);
+	GLdouble xr = 0.0, yr = 0.0;
 
 
-	glBegin(GL_QUADS);        // Draw The Cube Using quads
+	
+	if (rotate_type == 0) {
+		glRotatef(xrotate, 1.0, 0.0, 0.0);
+		glRotatef(yrotate, 0.0, 0.0, 1.0);
+	}
+	
+	glTranslatef(-1.5, 0, 0);
 
+	if(rotate_type == 1){
+		
+		glRotatef(xrotate, 1.0, 0.0, 0.0);
+		glRotatef(yrotate, 0.0, 0.0, 1.0);
+		
+	}
+
+
+	if (rotate_type == 2) {
+		xr = xrotate;
+		yr = yrotate;
+	}
 
 	glColor3f(0.75f, 0.75f, 0.75f);    // Color Silver
-	left_cube();
+	cube(xr, yr, 2);
+	glPushMatrix();
+	glTranslated(0, 0, 2);
 	glColor3f(1.0f, 0.84f, 0.0f);    // Color Gold
-	center_cube();
+	cube(xr, yr, 0.0);
+	glPopMatrix();
 	glColor3f(0.8f, 0.5f, 0.2f);    // Color Bronse
-	right_cube();
+	cube(xr, yr, -2);
 
 
-	glEnd();            // End Drawing The Cube
+	glPopMatrix();
 	glFlush();
 	glutSwapBuffers();
 }
 
 
-void keyboard(int key, int x, int y)
+void keyboard(unsigned char key, int x, int y)
 {
 	switch (key)
 	{
-	case 65:	// A
+	case 'a':	// A
 		yrotate -= 5;
-	case 68:	// D
+		break;
+	case 'd':	// D
 		yrotate += 5;
-	case 87:	// W
+		break;
+	case 'w':	// W
 		xrotate += 5;
-	case 83:	// S
+		break;
+	case 's':	// S
 		xrotate -= 5;
+		break;
+	default:
+		break;
+
 	}
 
 	glutPostRedisplay();
 
 }
 
-void animation(void)
-{
 
-	yrotate += 0.05;
-//	xrotate += 0.05;
+
+
+void reset_projection(int type) {
+	if (type == 0) { // perspective
+		glMatrixMode(GL_PROJECTION);
+		glLoadIdentity();
+		gluPerspective(70.0, w / h, 0.5, 20.0);
+		glViewport(0, 0, w, h);
 	
-	DrawCubes();
+	}
+	else if (type == 1) {
+		glMatrixMode(GL_PROJECTION);
+		glLoadIdentity();
+		glOrtho(-10, 10, -10, 10, 0, 20);
+		glViewport(0, 0, w, h);
+	}
+
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+	gluLookAt(0, 10, 0, 0, 0, 0, 0, 0, 1);
+
+}
+
+
+
+void specialkeys(int key, int x, int y) {
+	switch (key)
+	{
+	case GLUT_KEY_PAGE_UP:
+		proj_type = (proj_type + 1) % 2;
+		break;
+	case GLUT_KEY_PAGE_DOWN:
+		rotate_type = (rotate_type+1)%3;
+		break;
+	default:
+		break;
+	}
+	xrotate = 0;
+	yrotate = 0;
+	reset_projection(proj_type);
+	glutPostRedisplay();
+
 }
 
 
@@ -192,12 +149,11 @@ void reshape(int x, int y)
 {
 	if (y == 0 || x == 0) return;  
 
-	glMatrixMode(GL_PROJECTION);	
-	glLoadIdentity();
+	w = x;
+	h = y;
 
-	gluPerspective(70.0, (GLdouble)x / (GLdouble)y, 0.5, 20.0);
-	glMatrixMode(GL_MODELVIEW);
-	glViewport(0, 0, x, y); 
+	reset_projection(proj_type);
+	
 }
 
 int main(int argc, char** argv) {
@@ -212,11 +168,8 @@ int main(int argc, char** argv) {
 	
 	glutDisplayFunc(DrawCubes);
 	glutReshapeFunc(reshape);
-
-	//glutIdleFunc(DrawCubes);
-	glutIdleFunc(animation);
-	glutSpecialFunc(keyboard); 
-
+	glutKeyboardFunc(keyboard);
+	glutSpecialFunc(specialkeys);
 
 	glutMainLoop();
 	return 0;
