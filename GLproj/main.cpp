@@ -1,4 +1,5 @@
 #include <GL/glut.h>
+#include<SOIL2.h>
 #include <cstdlib>
 #include <time.h> 
 
@@ -25,7 +26,7 @@ void Update(void) {
 		glColor3f(clr[0], clr[1], clr[2]);
 		center_x = (wx * 3 + 0.9) / 3;
 		center_y = (wy * 3 + 0.4) / 3;
-		
+
 		glTranslatef(center_x, center_y, 0);
 		glRotatef(rotate, 0, 0, -1);
 		glTranslatef(-center_x, -center_y, 0);

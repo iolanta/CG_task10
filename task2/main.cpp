@@ -113,7 +113,7 @@ void reset_projection(int type) {
 	else if (type == 1) {
 		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
-		glOrtho(-10, 10, -10, 10, 0, 20);
+		glOrtho(-10 * (float)w / h, 10*(float)w/h, -10, 10, 0, 20);
 		glViewport(0, 0, w, h);
 	}
 
